@@ -1,0 +1,4 @@
+C:\Users\anya\Documents\Учеба\ООП\Лабораторные\Лр3\test\DAL\bin\Debug\DAL.dll
+C:\Users\anya\Documents\Учеба\ООП\Лабораторные\Лр3\test\DAL\bin\Debug\DAL.pdb
+C:\Users\anya\Documents\Учеба\ООП\Лабораторные\Лр3\test\DAL\obj\Debug\DAL.dll
+C:\Users\anya\Documents\Учеба\ООП\Лабораторные\Лр3\test\DAL\obj\Debug\DAL.pdb

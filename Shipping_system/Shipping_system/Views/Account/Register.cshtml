@@ -1,0 +1,40 @@
+﻿@using Shipping_system.Models
+@model Register
+@{
+    ViewBag.Title = "Register";
+    List<SelectListItem> roles = new List<SelectListItem>()
+    {
+        new SelectListItem()
+        {
+            Text = "admin",
+            Value = "admin"
+        },
+        new SelectListItem()
+        {
+            Text = "user",
+            Value = "user"
+        },
+        new SelectListItem()
+        {
+            Text = "manager",
+            Value = "manager"
+        }
+    };
+}
+
+<h2>Hello! Enter smth first time</h2>
+
+<div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        <label>Username</label>
+        @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+        <label>Password</label>
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        @Html.DropDownList("role", roles, "Select a role");
+        <button class="btn btn-primary">Create</button>
+    }
+</div>
+

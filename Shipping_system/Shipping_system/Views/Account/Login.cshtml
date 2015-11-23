@@ -1,0 +1,20 @@
+﻿@using Shipping_system.Models
+@model Login
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Hello! Enter smth</h2>
+
+<div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        <label>Username</label>
+        @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+        <label>Password</label>
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        <button class="btn btn-primary">Login</button>
+    }
+</div>

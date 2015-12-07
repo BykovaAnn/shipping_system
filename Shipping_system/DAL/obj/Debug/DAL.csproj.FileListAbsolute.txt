@@ -1,0 +1,12 @@
+D:\Shipping_system\DAL\bin\Debug\DAL.dll.config
+D:\Shipping_system\DAL\bin\Debug\DAL.dll
+D:\Shipping_system\DAL\bin\Debug\DAL.pdb
+D:\Shipping_system\DAL\bin\Debug\EntityFramework.dll
+D:\Shipping_system\DAL\bin\Debug\EntityFramework.SqlServer.dll
+D:\Shipping_system\DAL\bin\Debug\EntityFramework.xml
+D:\Shipping_system\DAL\bin\Debug\EntityFramework.SqlServer.xml
+D:\Shipping_system\DAL\bin\Debug\ru\EntityFramework.resources.dll
+D:\Shipping_system\DAL\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
+D:\Shipping_system\DAL\obj\Debug\DAL.dll
+D:\Shipping_system\DAL\obj\Debug\DAL.pdb
+D:\Shipping_system\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache

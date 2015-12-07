@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6ec571ad73be49f886e320ee10c2099c" Name="Diagram1">
+        <EntityTypeShape EntityType="shipping_systemModel.calls" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="shipping_systemModel.roles" Width="1.5" PointX="0.75" PointY="2" />
+        <EntityTypeShape EntityType="shipping_systemModel.status" Width="1.5" PointX="3" PointY="6" />
+        <EntityTypeShape EntityType="shipping_systemModel.UserProfile" Width="1.5" PointX="8" PointY="5.875" />
+        <EntityTypeShape EntityType="shipping_systemModel.users" Width="1.5" PointX="3" PointY="1.125" />
+        <EntityTypeShape EntityType="shipping_systemModel.webpages_Membership" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="shipping_systemModel.webpages_OAuthMembership" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="shipping_systemModel.webpages_Roles" Width="1.5" PointX="5.75" PointY="5.875" />
+        <AssociationConnector Association="shipping_systemModel.FK_calls_customers" />
+        <AssociationConnector Association="shipping_systemModel.FK_calls_manager" />
+        <AssociationConnector Association="shipping_systemModel.FK_calls_status" />
+        <AssociationConnector Association="shipping_systemModel.FK_roles_users" />
+        <AssociationConnector Association="shipping_systemModel.webpages_UsersInRoles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

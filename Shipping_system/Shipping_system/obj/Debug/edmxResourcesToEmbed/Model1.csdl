@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="shipping_systemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="calls">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="status" Type="Int32" Nullable="false" />
+    <Property Name="manager" Type="Int32" Nullable="false" />
+    <Property Name="cutomer" Type="Int32" Nullable="false" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="date_delivery" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="delivery_from" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="delivery_to" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="delivery_time_from" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="delivery_time_to" Type="Time" Nullable="false" Precision="7" />
+    <NavigationProperty Name="users" Relationship="Self.FK_calls_customers" FromRole="calls" ToRole="users" />
+    <NavigationProperty Name="users1" Relationship="Self.FK_calls_manager" FromRole="calls" ToRole="users" />
+    <NavigationProperty Name="status1" Relationship="Self.FK_calls_status" FromRole="calls" ToRole="status" />
+  </EntityType>
+  <EntityType Name="roles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="title" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="users" Relationship="Self.FK_roles_users" FromRole="roles" ToRole="users" />
+  </EntityType>
+  <EntityType Name="status">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="title" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="calls" Relationship="Self.FK_calls_status" FromRole="status" ToRole="calls" />
+  </EntityType>
+  <EntityType Name="UserProfile">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="56" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="webpages_Roles" Relationship="Self.webpages_UsersInRoles" FromRole="UserProfile" ToRole="webpages_Roles" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="first_name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="last_name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="25" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="phone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="contact_person" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="role" Type="Int32" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="user_password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="calls" Relationship="Self.FK_calls_customers" FromRole="users" ToRole="calls" />
+    <NavigationProperty Name="calls1" Relationship="Self.FK_calls_manager" FromRole="users" ToRole="calls" />
+    <NavigationProperty Name="roles" Relationship="Self.FK_roles_users" FromRole="users" ToRole="roles" />
+  </EntityType>
+  <EntityType Name="webpages_Membership">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="ConfirmationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="IsConfirmed" Type="Boolean" />
+    <Property Name="LastPasswordFailureDate" Type="DateTime" Precision="3" />
+    <Property Name="PasswordFailuresSinceLastSuccess" Type="Int32" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PasswordChangedDate" Type="DateTime" Precision="3" />
+    <Property Name="PasswordSalt" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PasswordVerificationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="PasswordVerificationTokenExpirationDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="webpages_OAuthMembership">
+    <Key>
+      <PropertyRef Name="Provider" />
+      <PropertyRef Name="ProviderUserId" />
+    </Key>
+    <Property Name="Provider" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ProviderUserId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="webpages_Roles">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="UserProfile" Relationship="Self.webpages_UsersInRoles" FromRole="webpages_Roles" ToRole="UserProfile" />
+  </EntityType>
+  <Association Name="FK_calls_customers">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="calls" Type="Self.calls" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="calls">
+        <PropertyRef Name="cutomer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_calls_manager">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="calls" Type="Self.calls" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="calls">
+        <PropertyRef Name="manager" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_calls_status">
+    <End Role="status" Type="Self.status" Multiplicity="1" />
+    <End Role="calls" Type="Self.calls" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="status">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="calls">
+        <PropertyRef Name="status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_roles_users">
+    <End Role="roles" Type="Self.roles" Multiplicity="1" />
+    <End Role="users" Type="Self.users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="roles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="webpages_UsersInRoles">
+    <End Role="webpages_Roles" Type="Self.webpages_Roles" Multiplicity="*" />
+    <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="shipping_systemEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="calls" EntityType="Self.calls" />
+    <EntitySet Name="roles" EntityType="Self.roles" />
+    <EntitySet Name="status" EntityType="Self.status" />
+    <EntitySet Name="UserProfile" EntityType="Self.UserProfile" />
+    <EntitySet Name="users" EntityType="Self.users" />
+    <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" />
+    <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" />
+    <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" />
+    <AssociationSet Name="FK_calls_customers" Association="Self.FK_calls_customers">
+      <End Role="users" EntitySet="users" />
+      <End Role="calls" EntitySet="calls" />
+    </AssociationSet>
+    <AssociationSet Name="FK_calls_manager" Association="Self.FK_calls_manager">
+      <End Role="users" EntitySet="users" />
+      <End Role="calls" EntitySet="calls" />
+    </AssociationSet>
+    <AssociationSet Name="FK_calls_status" Association="Self.FK_calls_status">
+      <End Role="status" EntitySet="status" />
+      <End Role="calls" EntitySet="calls" />
+    </AssociationSet>
+    <AssociationSet Name="FK_roles_users" Association="Self.FK_roles_users">
+      <End Role="roles" EntitySet="roles" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="webpages_UsersInRoles" Association="Self.webpages_UsersInRoles">
+      <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+      <End Role="UserProfile" EntitySet="UserProfile" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

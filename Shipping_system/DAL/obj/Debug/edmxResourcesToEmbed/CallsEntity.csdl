@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="shipping_systemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="shipping_systemEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="calls" EntityType="shipping_systemModel.calls" />
+    <EntitySet Name="roles" EntityType="shipping_systemModel.roles" />
+    <EntitySet Name="status" EntityType="shipping_systemModel.status" />
+    <EntitySet Name="UserProfile" EntityType="shipping_systemModel.UserProfile" />
+    <EntitySet Name="users" EntityType="shipping_systemModel.users" />
+    <EntitySet Name="webpages_Membership" EntityType="shipping_systemModel.webpages_Membership" />
+    <EntitySet Name="webpages_OAuthMembership" EntityType="shipping_systemModel.webpages_OAuthMembership" />
+    <EntitySet Name="webpages_Roles" EntityType="shipping_systemModel.webpages_Roles" />
+    <AssociationSet Name="FK_calls_customers" Association="shipping_systemModel.FK_calls_customers">
+      <End Role="users" EntitySet="users" />
+      <End Role="calls" EntitySet="calls" />
+    </AssociationSet>
+    <AssociationSet Name="FK_calls_manager" Association="shipping_systemModel.FK_calls_manager">
+      <End Role="users" EntitySet="users" />
+      <End Role="calls" EntitySet="calls" />
+    </AssociationSet>
+    <AssociationSet Name="FK_calls_status" Association="shipping_systemModel.FK_calls_status">
+      <End Role="status" EntitySet="status" />
+      <End Role="calls" EntitySet="calls" />
+    </AssociationSet>
+    <AssociationSet Name="FK_roles_users" Association="shipping_systemModel.FK_roles_users">
+      <End Role="roles" EntitySet="roles" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="webpages_UsersInRoles" Association="shipping_systemModel.webpages_UsersInRoles">
+      <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+      <End Role="UserProfile" EntitySet="UserProfile" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="calls">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="status" Type="Int32" Nullable="false" />
+    <Property Name="manager" Type="Int32" Nullable="false" />
+    <Property Name="cutomer" Type="Int32" Nullable="false" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="date_delivery" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="delivery_from" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="delivery_to" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="delivery_time_from" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="delivery_time_to" Type="Time" Nullable="false" Precision="7" />
+    <NavigationProperty Name="users" Relationship="shipping_systemModel.FK_calls_customers" FromRole="calls" ToRole="users" />
+    <NavigationProperty Name="users1" Relationship="shipping_systemModel.FK_calls_manager" FromRole="calls" ToRole="users" />
+    <NavigationProperty Name="status1" Relationship="shipping_systemModel.FK_calls_status" FromRole="calls" ToRole="status" />
+  </EntityType>
+  <EntityType Name="roles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="title" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="users" Relationship="shipping_systemModel.FK_roles_users" FromRole="roles" ToRole="users" />
+  </EntityType>
+  <EntityType Name="status">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="title" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="calls" Relationship="shipping_systemModel.FK_calls_status" FromRole="status" ToRole="calls" />
+  </EntityType>
+  <EntityType Name="UserProfile">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="webpages_Roles" Relationship="shipping_systemModel.webpages_UsersInRoles" FromRole="UserProfile" ToRole="webpages_Roles" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="first_name" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="last_name" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="email" Type="String" Nullable="false" MaxLength="25" FixedLength="true" Unicode="true" />
+    <Property Name="phone" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="contact_person" Type="String" Nullable="false" MaxLength="40" FixedLength="true" Unicode="true" />
+    <Property Name="role" Type="Int32" Nullable="false" />
+    <Property Name="username" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="user_password" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="calls" Relationship="shipping_systemModel.FK_calls_customers" FromRole="users" ToRole="calls" />
+    <NavigationProperty Name="calls1" Relationship="shipping_systemModel.FK_calls_manager" FromRole="users" ToRole="calls" />
+    <NavigationProperty Name="roles" Relationship="shipping_systemModel.FK_roles_users" FromRole="users" ToRole="roles" />
+  </EntityType>
+  <EntityType Name="webpages_Membership">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="ConfirmationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="IsConfirmed" Type="Boolean" />
+    <Property Name="LastPasswordFailureDate" Type="DateTime" Precision="3" />
+    <Property Name="PasswordFailuresSinceLastSuccess" Type="Int32" Nullable="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="PasswordChangedDate" Type="DateTime" Precision="3" />
+    <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="PasswordVerificationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="PasswordVerificationTokenExpirationDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="webpages_OAuthMembership">
+    <Key>
+      <PropertyRef Name="Provider" />
+      <PropertyRef Name="ProviderUserId" />
+    </Key>
+    <Property Name="Provider" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="ProviderUserId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="webpages_Roles">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="UserProfile" Relationship="shipping_systemModel.webpages_UsersInRoles" FromRole="webpages_Roles" ToRole="UserProfile" />
+  </EntityType>
+  <Association Name="FK_calls_customers">
+    <End Type="shipping_systemModel.users" Role="users" Multiplicity="1" />
+    <End Type="shipping_systemModel.calls" Role="calls" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="calls">
+        <PropertyRef Name="cutomer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_calls_manager">
+    <End Type="shipping_systemModel.users" Role="users" Multiplicity="1" />
+    <End Type="shipping_systemModel.calls" Role="calls" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="calls">
+        <PropertyRef Name="manager" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_calls_status">
+    <End Type="shipping_systemModel.status" Role="status" Multiplicity="1" />
+    <End Type="shipping_systemModel.calls" Role="calls" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="status">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="calls">
+        <PropertyRef Name="status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_roles_users">
+    <End Type="shipping_systemModel.roles" Role="roles" Multiplicity="1" />
+    <End Type="shipping_systemModel.users" Role="users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="roles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="webpages_UsersInRoles">
+    <End Type="shipping_systemModel.webpages_Roles" Role="webpages_Roles" Multiplicity="*" />
+    <End Type="shipping_systemModel.UserProfile" Role="UserProfile" Multiplicity="*" />
+  </Association>
+</Schema>

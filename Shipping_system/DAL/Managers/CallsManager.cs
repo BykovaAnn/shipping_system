@@ -9,11 +9,14 @@ namespace DAL.Managers
     public class CallsManager
     {
 
-        public static List<calls> GetCalls(Int32 page, Int32 perPage, String sort, String napravlenirSortirovki)
+        public static List<calls> GetCalls(string sidx, string sord, int page, int rows)
         {
+            int pageIndex = Convert.ToInt32(page) - 1;
+            int pageSize = rows;
             using (shipping_systemEntities dc = new shipping_systemEntities())
             {
-                return dc.calls.Skip((page - 1) * perPage).Take(perPage).ToList();
+
+                return dc.calls.Skip((page - 1) * rows).Take(rows).ToList();
 
             }
 

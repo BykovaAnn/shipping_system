@@ -26,10 +26,8 @@ namespace DAL
         }
     
         public virtual DbSet<calls> calls { get; set; }
-        public virtual DbSet<roles> roles { get; set; }
         public virtual DbSet<status> status { get; set; }
         public virtual DbSet<UserProfile> UserProfile { get; set; }
-        public virtual DbSet<users> users { get; set; }
         public virtual DbSet<webpages_Membership> webpages_Membership { get; set; }
         public virtual DbSet<webpages_OAuthMembership> webpages_OAuthMembership { get; set; }
         public virtual DbSet<webpages_Roles> webpages_Roles { get; set; }

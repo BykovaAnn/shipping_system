@@ -18,12 +18,23 @@ namespace DAL
         public UserProfile()
         {
             this.webpages_Roles = new HashSet<webpages_Roles>();
+            this.calls = new HashSet<calls>();
+            this.calls1 = new HashSet<calls>();
         }
     
         public int UserId { get; set; }
         public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string ContactPerson { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<webpages_Roles> webpages_Roles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<calls> calls { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<calls> calls1 { get; set; }
     }
 }

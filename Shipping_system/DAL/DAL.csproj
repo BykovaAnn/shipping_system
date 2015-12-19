@@ -70,18 +70,13 @@
       <DependentUpon>CallsEntity.edmx</DependentUpon>
     </Compile>
     <Compile Include="Class1.cs" />
+    <Compile Include="Customers\CustomerCalls.cs" />
     <Compile Include="Managers\CallsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="roles.cs">
-      <DependentUpon>CallsEntity.tt</DependentUpon>
-    </Compile>
     <Compile Include="status.cs">
       <DependentUpon>CallsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="UserProfile.cs">
-      <DependentUpon>CallsEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="users.cs">
       <DependentUpon>CallsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="webpages_Membership.cs">
@@ -95,19 +90,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <EntityDeploy Include="CallsEntity.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>CallsEntity.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="CallsEntity.edmx.diagram">
       <DependentUpon>CallsEntity.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CallsEntity.Context.tt">
@@ -120,9 +116,6 @@
       <DependentUpon>CallsEntity.edmx</DependentUpon>
       <LastGenOutput>CallsEntity.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

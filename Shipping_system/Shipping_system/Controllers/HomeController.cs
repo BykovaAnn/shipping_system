@@ -37,7 +37,7 @@ namespace Shipping_system.Controllers
         [HttpGet]
         public ActionResult GetData(Int32 page, Int32 perPage, String sort)
         {
-            List<calls> callsForGridb = CallsManager.GetCalls(page, perPage, sort, "desc");
+            List<calls> callsForGridb = CallsManager.GetCalls(sort, "desc", page, perPage);
             var result = new {
 
 

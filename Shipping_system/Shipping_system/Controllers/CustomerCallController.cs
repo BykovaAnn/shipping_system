@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Shipping_system.DBContext;
 using DAL;
 
 namespace Shipping_system.Controllers
@@ -13,53 +12,64 @@ namespace Shipping_system.Controllers
     public class CustomerCallController : Controller
     {
         // GET: CustomerCall
+        [Authorize(Roles = "user")]
         public ActionResult Index()
         {
             return View();
         }
 
-        //только с using        
-        //DAL.shipping_systemEntities db = new shipping_systemEntities();
+        [HttpPost]
+        public ActionResult Index(CustomerCallModel newcalldata)
+        {
+            DAL.Customers.CustomerCalls.AddCall((int)System.Web.Security.Membership.GetUser().ProviderUserKey,
+                newcalldata.DeliveryFrom,
+                newcalldata.DeliveryTo,
+                newcalldata.DateDelivery,
+                newcalldata.DeliveryTimeFrom,
+                newcalldata.DeliveryTimeTo);
+            return View();
+        }
+
+        public JsonResult GetCall(Int32 callID)
+        {
+            DAL.Customers.CustomerCalls CustomerCallManager = new DAL.Customers.CustomerCalls();
+            calls call = CustomerCallManager.GetCall(callID);
+            CustomerCallModel model = new CustomerCallModel()
+            {
+                Id = call.Id,
+                DeliveryFrom = call.delivery_from,
+                DeliveryTo = call.delivery_to,
+                DeliveryTimeFrom = call.delivery_time_from.HasValue ? call.delivery_time_from.Value.ToString() : String.Empty,
+                DeliveryTimeTo = call.delivery_time_to.HasValue ? call.delivery_time_to.Value.ToString() : String.Empty,
+                DateDelivery = call.date_delivery
+            };
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult GetCustomerCalls(string sidx, string sord, int page, int rows)
         {
             int pageIndex = Convert.ToInt32(page) - 1;
             int pageSize = rows;
 
-            Class1 callsManager = new Class1();
-            List<calls> calls = callsManager.GetCalls();
+            DAL.Customers.CustomerCalls CustomerCallManager = new DAL.Customers.CustomerCalls();
+            int userId = (int)System.Web.Security.Membership.GetUser().ProviderUserKey;
+            List<calls> calls_for_curr_user = CustomerCallManager.GetCalls(userId, sidx, sord, page, rows);
 
-
-            var CCResults = calls.Select(
+            
+            var CCResults = calls_for_curr_user.Select(
                 a => new
                 {
                     id = a.Id,
                     cell = new object[] {
-                  //  a.Id,
-                    a.status,
-                    a.manager,
-                    a.date.ToShortDateString(),
-                    a.date_delivery.ToShortDateString(),
-                    a.delivery_from,
-                    a.delivery_to,
-                    a.delivery_time_from.ToString(),
-                    a.delivery_time_to.ToString()
+                    a.Id,
+                    a.date.Value.ToShortDateString(),
+                    CustomerCallManager.getStatus((int)a.status),
+                    CustomerCallManager.getManagerName((int)a.manager)                    
                     }
                 });
-            int totalRecords = CCResults.Count();
+            int totalRecords = CustomerCallManager.getCallsCount(userId);
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
-            if (sord.ToUpper() == "DESC")
-            {
-                CCResults = CCResults.OrderByDescending(s => s.id);
-                CCResults = CCResults.Skip(pageIndex * pageSize).Take(pageSize);
 
-            }
-            else
-            {
-                CCResults = CCResults.OrderBy(s => s.id);
-                CCResults = CCResults.Skip(pageIndex * pageSize).Take(pageSize);
-
-            }
             var jsonData = new
             {
                 total = totalPages,
@@ -70,30 +80,6 @@ namespace Shipping_system.Controllers
             };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
-
-        //[HttpPost]
-        //public string Create([Bind(Exclude = "Id")] calls obj)
-        //{
-        //    string msg;
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            db.calls.Add(obj);
-        //            db.SaveChanges();
-        //            msg = "Usyo ok";
-        //        }
-        //        else
-        //        {
-        //            msg = "Ne ok";
-        //        }
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        msg = "Err" + ex.Message;
-        //    }
-        //    return msg;
-        //}
 
         //public string Edit(calls obj)
         //{
@@ -118,13 +104,26 @@ namespace Shipping_system.Controllers
         //    return msg;
         //}
 
-        //public string Delete (int Id)
-        //{
-        //    calls obj = db.calls.Find(Id);
-        //    db.calls.Remove(obj);
-        //    db.SaveChanges();
-        //    return "Usyo ok";
-        //}
+        public string DeleteCall(int Id)
+        {
+            DAL.Customers.CustomerCalls.DeleteCall(Id);
+            return "Usyo ok";
+        }
+
+        [HttpPost]
+        public string SaveCall(CustomerCallModel model)
+        {
+            if(model.Id == 0)
+            {
+                //add
+            }
+            else
+            {
+                //edit
+            }
+            //DAL.Customers.CustomerCalls.DeleteCall(Id);
+            return "Usyo ok";
+        }
 
         //public string GetRecords()
         //{

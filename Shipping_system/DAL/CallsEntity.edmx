@@ -9,23 +9,16 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="status" Type="int" Nullable="false" />
-          <Property Name="manager" Type="int" Nullable="false" />
-          <Property Name="cutomer" Type="int" Nullable="false" />
-          <Property Name="date" Type="date" Nullable="false" />
-          <Property Name="date_delivery" Type="date" Nullable="false" />
-          <Property Name="delivery_from" Type="nchar" MaxLength="50" Nullable="false" />
-          <Property Name="delivery_to" Type="nchar" MaxLength="50" Nullable="false" />
-          <Property Name="delivery_time_from" Type="time" Precision="7" Nullable="false" />
-          <Property Name="delivery_time_to" Type="time" Precision="7" Nullable="false" />
-        </EntityType>
-        <EntityType Name="roles">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="title" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="status" Type="int" />
+          <Property Name="manager" Type="int" />
+          <Property Name="cutomer" Type="int" />
+          <Property Name="date" Type="date" />
+          <Property Name="date_delivery" Type="date" />
+          <Property Name="delivery_from" Type="nchar" MaxLength="50" />
+          <Property Name="delivery_to" Type="nchar" MaxLength="50" />
+          <Property Name="delivery_time_from" Type="time" Precision="7" />
+          <Property Name="delivery_time_to" Type="time" Precision="7" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="status">
           <Key>
@@ -40,20 +33,11 @@
           </Key>
           <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Username" Type="nvarchar" MaxLength="56" Nullable="false" />
-        </EntityType>
-        <EntityType Name="users">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="first_name" Type="nchar" MaxLength="20" Nullable="false" />
-          <Property Name="last_name" Type="nchar" MaxLength="20" Nullable="false" />
-          <Property Name="email" Type="nchar" MaxLength="25" Nullable="false" />
-          <Property Name="phone" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="contact_person" Type="nchar" MaxLength="40" Nullable="false" />
-          <Property Name="role" Type="int" Nullable="false" />
-          <Property Name="username" Type="nchar" MaxLength="20" Nullable="false" />
-          <Property Name="user_password" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="FirstName" Type="nchar" MaxLength="20" />
+          <Property Name="LastName" Type="nchar" MaxLength="20" />
+          <Property Name="Email" Type="nchar" MaxLength="20" />
+          <Property Name="Phone" Type="nchar" MaxLength="20" />
+          <Property Name="ContactPerson" Type="nchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="webpages_Membership">
           <Key>
@@ -95,32 +79,8 @@
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK_calls_customers">
-          <End Role="users" Type="Self.users" Multiplicity="1" />
-          <End Role="calls" Type="Self.calls" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="calls">
-              <PropertyRef Name="cutomer" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_calls_manager">
-          <End Role="users" Type="Self.users" Multiplicity="1" />
-          <End Role="calls" Type="Self.calls" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="calls">
-              <PropertyRef Name="manager" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_calls_status">
-          <End Role="status" Type="Self.status" Multiplicity="1" />
+          <End Role="status" Type="Self.status" Multiplicity="0..1" />
           <End Role="calls" Type="Self.calls" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="status">
@@ -128,6 +88,30 @@
             </Principal>
             <Dependent Role="calls">
               <PropertyRef Name="status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_customers_calls">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="calls" Type="Self.calls" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="calls">
+              <PropertyRef Name="cutomer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_managers_calls">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="calls" Type="Self.calls" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="calls">
+              <PropertyRef Name="manager" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -140,18 +124,6 @@
             </Principal>
             <Dependent Role="webpages_UsersInRoles">
               <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_roles_users">
-          <End Role="roles" Type="Self.roles" Multiplicity="1" />
-          <End Role="users" Type="Self.users" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="roles">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="users">
-              <PropertyRef Name="role" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -169,33 +141,27 @@
         </Association>
         <EntityContainer Name="Хранилище shipping_systemModelContainer">
           <EntitySet Name="calls" EntityType="Self.calls" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="status" EntityType="Self.status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_UsersInRoles" EntityType="Self.webpages_UsersInRoles" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_calls_customers" Association="Self.FK_calls_customers">
-            <End Role="users" EntitySet="users" />
-            <End Role="calls" EntitySet="calls" />
-          </AssociationSet>
-          <AssociationSet Name="FK_calls_manager" Association="Self.FK_calls_manager">
-            <End Role="users" EntitySet="users" />
-            <End Role="calls" EntitySet="calls" />
-          </AssociationSet>
           <AssociationSet Name="FK_calls_status" Association="Self.FK_calls_status">
             <End Role="status" EntitySet="status" />
+            <End Role="calls" EntitySet="calls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_customers_calls" Association="Self.FK_customers_calls">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="calls" EntitySet="calls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_managers_calls" Association="Self.FK_managers_calls">
+            <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="calls" EntitySet="calls" />
           </AssociationSet>
           <AssociationSet Name="fk_RoleId" Association="Self.fk_RoleId">
             <End Role="webpages_Roles" EntitySet="webpages_Roles" />
             <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_roles_users" Association="Self.FK_roles_users">
-            <End Role="roles" EntitySet="roles" />
-            <End Role="users" EntitySet="users" />
           </AssociationSet>
           <AssociationSet Name="fk_UserId" Association="Self.fk_UserId">
             <End Role="UserProfile" EntitySet="UserProfile" />
@@ -206,94 +172,46 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="shipping_systemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="shipping_systemEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="calls" EntityType="shipping_systemModel.calls" />
-          <EntitySet Name="roles" EntityType="shipping_systemModel.roles" />
-          <EntitySet Name="status" EntityType="shipping_systemModel.status" />
-          <EntitySet Name="UserProfile" EntityType="shipping_systemModel.UserProfile" />
-          <EntitySet Name="users" EntityType="shipping_systemModel.users" />
-          <EntitySet Name="webpages_Membership" EntityType="shipping_systemModel.webpages_Membership" />
-          <EntitySet Name="webpages_OAuthMembership" EntityType="shipping_systemModel.webpages_OAuthMembership" />
-          <EntitySet Name="webpages_Roles" EntityType="shipping_systemModel.webpages_Roles" />
-          <AssociationSet Name="FK_calls_customers" Association="shipping_systemModel.FK_calls_customers">
-            <End Role="users" EntitySet="users" />
-            <End Role="calls" EntitySet="calls" />
-          </AssociationSet>
-          <AssociationSet Name="FK_calls_manager" Association="shipping_systemModel.FK_calls_manager">
-            <End Role="users" EntitySet="users" />
-            <End Role="calls" EntitySet="calls" />
-          </AssociationSet>
-          <AssociationSet Name="FK_calls_status" Association="shipping_systemModel.FK_calls_status">
-            <End Role="status" EntitySet="status" />
-            <End Role="calls" EntitySet="calls" />
-          </AssociationSet>
-          <AssociationSet Name="FK_roles_users" Association="shipping_systemModel.FK_roles_users">
-            <End Role="roles" EntitySet="roles" />
-            <End Role="users" EntitySet="users" />
-          </AssociationSet>
-          <AssociationSet Name="webpages_UsersInRoles" Association="shipping_systemModel.webpages_UsersInRoles">
-            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
-            <End Role="UserProfile" EntitySet="UserProfile" />
-          </AssociationSet>
-        </EntityContainer>
         <EntityType Name="calls">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="status" Type="Int32" Nullable="false" />
-          <Property Name="manager" Type="Int32" Nullable="false" />
-          <Property Name="cutomer" Type="Int32" Nullable="false" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="date_delivery" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="delivery_from" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
-          <Property Name="delivery_to" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
-          <Property Name="delivery_time_from" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="delivery_time_to" Type="Time" Nullable="false" Precision="7" />
-          <NavigationProperty Name="users" Relationship="shipping_systemModel.FK_calls_customers" FromRole="calls" ToRole="users" />
-          <NavigationProperty Name="users1" Relationship="shipping_systemModel.FK_calls_manager" FromRole="calls" ToRole="users" />
-          <NavigationProperty Name="status1" Relationship="shipping_systemModel.FK_calls_status" FromRole="calls" ToRole="status" />
-        </EntityType>
-        <EntityType Name="roles">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="title" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="users" Relationship="shipping_systemModel.FK_roles_users" FromRole="roles" ToRole="users" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="manager" Type="Int32" />
+          <Property Name="cutomer" Type="Int32" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="date_delivery" Type="DateTime" Precision="0" />
+          <Property Name="delivery_from" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="delivery_to" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="delivery_time_from" Type="Time" Precision="7" />
+          <Property Name="delivery_time_to" Type="Time" Precision="7" />
+          <NavigationProperty Name="status1" Relationship="Self.FK_calls_status" FromRole="calls" ToRole="status" />
+          <NavigationProperty Name="UserProfile" Relationship="shipping_systemModel.FK_customers_calls" FromRole="calls" ToRole="UserProfile" />
+          <NavigationProperty Name="UserProfile1" Relationship="shipping_systemModel.FK_managers_calls" FromRole="calls" ToRole="UserProfile" />
         </EntityType>
         <EntityType Name="status">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="title" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="calls" Relationship="shipping_systemModel.FK_calls_status" FromRole="status" ToRole="calls" />
+          <Property Name="title" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="calls" Relationship="Self.FK_calls_status" FromRole="status" ToRole="calls" />
         </EntityType>
         <EntityType Name="UserProfile">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
           <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Username" Type="String" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="webpages_Roles" Relationship="shipping_systemModel.webpages_UsersInRoles" FromRole="UserProfile" ToRole="webpages_Roles" />
-        </EntityType>
-        <EntityType Name="users">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="first_name" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="last_name" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="25" FixedLength="true" Unicode="true" />
-          <Property Name="phone" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="contact_person" Type="String" Nullable="false" MaxLength="40" FixedLength="true" Unicode="true" />
-          <Property Name="role" Type="Int32" Nullable="false" />
-          <Property Name="username" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="user_password" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="calls" Relationship="shipping_systemModel.FK_calls_customers" FromRole="users" ToRole="calls" />
-          <NavigationProperty Name="calls1" Relationship="shipping_systemModel.FK_calls_manager" FromRole="users" ToRole="calls" />
-          <NavigationProperty Name="roles" Relationship="shipping_systemModel.FK_roles_users" FromRole="users" ToRole="roles" />
+          <Property Name="Username" Type="String" MaxLength="56" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="webpages_Roles" Relationship="Self.webpages_UsersInRoles" FromRole="UserProfile" ToRole="webpages_Roles" />
+          <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="ContactPerson" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="calls" Relationship="shipping_systemModel.FK_customers_calls" FromRole="UserProfile" ToRole="calls" />
+          <NavigationProperty Name="calls1" Relationship="shipping_systemModel.FK_managers_calls" FromRole="UserProfile" ToRole="calls" />
         </EntityType>
         <EntityType Name="webpages_Membership">
           <Key>
@@ -305,9 +223,9 @@
           <Property Name="IsConfirmed" Type="Boolean" />
           <Property Name="LastPasswordFailureDate" Type="DateTime" Precision="3" />
           <Property Name="PasswordFailuresSinceLastSuccess" Type="Int32" Nullable="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PasswordChangedDate" Type="DateTime" Precision="3" />
-          <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordSalt" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PasswordVerificationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="PasswordVerificationTokenExpirationDate" Type="DateTime" Precision="3" />
         </EntityType>
@@ -316,8 +234,8 @@
             <PropertyRef Name="Provider" />
             <PropertyRef Name="ProviderUserId" />
           </Key>
-          <Property Name="Provider" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="ProviderUserId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Provider" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderUserId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="webpages_Roles">
@@ -325,36 +243,12 @@
             <PropertyRef Name="RoleId" />
           </Key>
           <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="UserProfile" Relationship="shipping_systemModel.webpages_UsersInRoles" FromRole="webpages_Roles" ToRole="UserProfile" />
+          <Property Name="RoleName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.webpages_UsersInRoles" FromRole="webpages_Roles" ToRole="UserProfile" />
         </EntityType>
-        <Association Name="FK_calls_customers">
-          <End Type="shipping_systemModel.users" Role="users" Multiplicity="1" />
-          <End Type="shipping_systemModel.calls" Role="calls" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="calls">
-              <PropertyRef Name="cutomer" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_calls_manager">
-          <End Type="shipping_systemModel.users" Role="users" Multiplicity="1" />
-          <End Type="shipping_systemModel.calls" Role="calls" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="calls">
-              <PropertyRef Name="manager" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_calls_status">
-          <End Type="shipping_systemModel.status" Role="status" Multiplicity="1" />
-          <End Type="shipping_systemModel.calls" Role="calls" Multiplicity="*" />
+          <End Role="status" Type="Self.status" Multiplicity="0..1" />
+          <End Role="calls" Type="Self.calls" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="status">
               <PropertyRef Name="Id" />
@@ -364,21 +258,57 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_roles_users">
-          <End Type="shipping_systemModel.roles" Role="roles" Multiplicity="1" />
-          <End Type="shipping_systemModel.users" Role="users" Multiplicity="*" />
+        <Association Name="webpages_UsersInRoles">
+          <End Role="webpages_Roles" Type="Self.webpages_Roles" Multiplicity="*" />
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="shipping_systemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="calls" EntityType="Self.calls" />
+          <EntitySet Name="status" EntityType="Self.status" />
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" />
+          <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" />
+          <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" />
+          <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" />
+          <AssociationSet Name="FK_calls_status" Association="Self.FK_calls_status">
+            <End Role="status" EntitySet="status" />
+            <End Role="calls" EntitySet="calls" />
+          </AssociationSet>
+          <AssociationSet Name="webpages_UsersInRoles" Association="Self.webpages_UsersInRoles">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_customers_calls" Association="shipping_systemModel.FK_customers_calls">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="calls" EntitySet="calls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_managers_calls" Association="shipping_systemModel.FK_managers_calls">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="calls" EntitySet="calls" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_customers_calls">
+          <End Type="shipping_systemModel.UserProfile" Role="UserProfile" Multiplicity="0..1" />
+          <End Type="shipping_systemModel.calls" Role="calls" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="roles">
-              <PropertyRef Name="Id" />
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
             </Principal>
-            <Dependent Role="users">
-              <PropertyRef Name="role" />
+            <Dependent Role="calls">
+              <PropertyRef Name="cutomer" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="webpages_UsersInRoles">
-          <End Type="shipping_systemModel.webpages_Roles" Role="webpages_Roles" Multiplicity="*" />
-          <End Type="shipping_systemModel.UserProfile" Role="UserProfile" Multiplicity="*" />
+        <Association Name="FK_managers_calls">
+          <End Type="shipping_systemModel.UserProfile" Role="UserProfile" Multiplicity="0..1" />
+          <End Type="shipping_systemModel.calls" Role="calls" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="calls">
+              <PropertyRef Name="manager" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -389,98 +319,80 @@
           <EntitySetMapping Name="calls">
             <EntityTypeMapping TypeName="shipping_systemModel.calls">
               <MappingFragment StoreEntitySet="calls">
-                <ScalarProperty Name="delivery_time_to" ColumnName="delivery_time_to" />
-                <ScalarProperty Name="delivery_time_from" ColumnName="delivery_time_from" />
-                <ScalarProperty Name="delivery_to" ColumnName="delivery_to" />
-                <ScalarProperty Name="delivery_from" ColumnName="delivery_from" />
-                <ScalarProperty Name="date_delivery" ColumnName="date_delivery" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="cutomer" ColumnName="cutomer" />
-                <ScalarProperty Name="manager" ColumnName="manager" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="roles">
-            <EntityTypeMapping TypeName="shipping_systemModel.roles">
-              <MappingFragment StoreEntitySet="roles">
-                <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="manager" ColumnName="manager" />
+                <ScalarProperty Name="cutomer" ColumnName="cutomer" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="date_delivery" ColumnName="date_delivery" />
+                <ScalarProperty Name="delivery_from" ColumnName="delivery_from" />
+                <ScalarProperty Name="delivery_to" ColumnName="delivery_to" />
+                <ScalarProperty Name="delivery_time_from" ColumnName="delivery_time_from" />
+                <ScalarProperty Name="delivery_time_to" ColumnName="delivery_time_to" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="status">
             <EntityTypeMapping TypeName="shipping_systemModel.status">
               <MappingFragment StoreEntitySet="status">
-                <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="title" ColumnName="title" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserProfile">
             <EntityTypeMapping TypeName="shipping_systemModel.UserProfile">
               <MappingFragment StoreEntitySet="UserProfile">
-                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="users">
-            <EntityTypeMapping TypeName="shipping_systemModel.users">
-              <MappingFragment StoreEntitySet="users">
-                <ScalarProperty Name="user_password" ColumnName="user_password" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="role" ColumnName="role" />
-                <ScalarProperty Name="contact_person" ColumnName="contact_person" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="last_name" ColumnName="last_name" />
-                <ScalarProperty Name="first_name" ColumnName="first_name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="webpages_Membership">
             <EntityTypeMapping TypeName="shipping_systemModel.webpages_Membership">
               <MappingFragment StoreEntitySet="webpages_Membership">
-                <ScalarProperty Name="PasswordVerificationTokenExpirationDate" ColumnName="PasswordVerificationTokenExpirationDate" />
-                <ScalarProperty Name="PasswordVerificationToken" ColumnName="PasswordVerificationToken" />
-                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
-                <ScalarProperty Name="PasswordChangedDate" ColumnName="PasswordChangedDate" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="PasswordFailuresSinceLastSuccess" ColumnName="PasswordFailuresSinceLastSuccess" />
-                <ScalarProperty Name="LastPasswordFailureDate" ColumnName="LastPasswordFailureDate" />
-                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
-                <ScalarProperty Name="ConfirmationToken" ColumnName="ConfirmationToken" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ConfirmationToken" ColumnName="ConfirmationToken" />
+                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+                <ScalarProperty Name="LastPasswordFailureDate" ColumnName="LastPasswordFailureDate" />
+                <ScalarProperty Name="PasswordFailuresSinceLastSuccess" ColumnName="PasswordFailuresSinceLastSuccess" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PasswordChangedDate" ColumnName="PasswordChangedDate" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="PasswordVerificationToken" ColumnName="PasswordVerificationToken" />
+                <ScalarProperty Name="PasswordVerificationTokenExpirationDate" ColumnName="PasswordVerificationTokenExpirationDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="webpages_OAuthMembership">
             <EntityTypeMapping TypeName="shipping_systemModel.webpages_OAuthMembership">
               <MappingFragment StoreEntitySet="webpages_OAuthMembership">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ProviderUserId" ColumnName="ProviderUserId" />
                 <ScalarProperty Name="Provider" ColumnName="Provider" />
+                <ScalarProperty Name="ProviderUserId" ColumnName="ProviderUserId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="webpages_Roles">
             <EntityTypeMapping TypeName="shipping_systemModel.webpages_Roles">
               <MappingFragment StoreEntitySet="webpages_Roles">
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="webpages_UsersInRoles" TypeName="shipping_systemModel.webpages_UsersInRoles" StoreEntitySet="webpages_UsersInRoles">
-            <EndProperty Name="UserProfile">
-              <ScalarProperty Name="UserId" ColumnName="UserId" />
-            </EndProperty>
             <EndProperty Name="webpages_Roles">
               <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="UserProfile">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

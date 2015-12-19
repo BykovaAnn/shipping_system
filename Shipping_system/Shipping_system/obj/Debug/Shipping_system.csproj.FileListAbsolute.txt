@@ -1,3 +1,4 @@
+D:\Shipping_system\Shipping_system\obj\Debug\Shipping_system.csprojResolveAssemblyReference.cache
 D:\Shipping_system\Shipping_system\bin\roslyn\csc.exe
 D:\Shipping_system\Shipping_system\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 D:\Shipping_system\Shipping_system\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -16,6 +17,7 @@ D:\Shipping_system\Shipping_system\bin\Shipping_system.pdb
 D:\Shipping_system\Shipping_system\bin\Antlr3.Runtime.dll
 D:\Shipping_system\Shipping_system\bin\DAL.dll
 D:\Shipping_system\Shipping_system\bin\EntityFramework.dll
+D:\Shipping_system\Shipping_system\bin\EntityFramework.SqlServer.dll
 D:\Shipping_system\Shipping_system\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 D:\Shipping_system\Shipping_system\bin\Microsoft.Web.Infrastructure.dll
 D:\Shipping_system\Shipping_system\bin\MySql.Web.dll
@@ -28,10 +30,12 @@ D:\Shipping_system\Shipping_system\bin\System.Web.WebPages.Deployment.dll
 D:\Shipping_system\Shipping_system\bin\System.Web.WebPages.dll
 D:\Shipping_system\Shipping_system\bin\System.Web.WebPages.Razor.dll
 D:\Shipping_system\Shipping_system\bin\WebGrease.dll
+D:\Shipping_system\Shipping_system\bin\WebMatrix.Data.dll
 D:\Shipping_system\Shipping_system\bin\WebMatrix.WebData.dll
 D:\Shipping_system\Shipping_system\bin\MySql.Data.dll
 D:\Shipping_system\Shipping_system\bin\DAL.pdb
 D:\Shipping_system\Shipping_system\bin\EntityFramework.xml
+D:\Shipping_system\Shipping_system\bin\EntityFramework.SqlServer.xml
 D:\Shipping_system\Shipping_system\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\Shipping_system\Shipping_system\bin\System.Web.Helpers.xml
 D:\Shipping_system\Shipping_system\bin\System.Web.Mvc.xml
@@ -41,8 +45,11 @@ D:\Shipping_system\Shipping_system\bin\System.Web.WebPages.xml
 D:\Shipping_system\Shipping_system\bin\System.Web.WebPages.Deployment.xml
 D:\Shipping_system\Shipping_system\bin\System.Web.WebPages.Razor.xml
 D:\Shipping_system\Shipping_system\bin\Antlr3.Runtime.pdb
+D:\Shipping_system\Shipping_system\bin\WebMatrix.Data.xml
 D:\Shipping_system\Shipping_system\bin\WebMatrix.WebData.xml
 D:\Shipping_system\Shipping_system\bin\Newtonsoft.Json.xml
+D:\Shipping_system\Shipping_system\bin\ru\EntityFramework.resources.dll
+D:\Shipping_system\Shipping_system\bin\ru\EntityFramework.SqlServer.resources.dll
 D:\Shipping_system\Shipping_system\bin\ru\System.Web.Helpers.resources.dll
 D:\Shipping_system\Shipping_system\bin\ru\System.Web.Mvc.resources.dll
 D:\Shipping_system\Shipping_system\bin\ru\System.Web.Optimization.resources.dll
@@ -52,10 +59,3 @@ D:\Shipping_system\Shipping_system\bin\ru\System.Web.WebPages.Deployment.resourc
 D:\Shipping_system\Shipping_system\bin\ru\System.Web.WebPages.Razor.resources.dll
 D:\Shipping_system\Shipping_system\obj\Debug\Shipping_system.dll
 D:\Shipping_system\Shipping_system\obj\Debug\Shipping_system.pdb
-D:\Shipping_system\Shipping_system\bin\WebMatrix.Data.dll
-D:\Shipping_system\Shipping_system\bin\WebMatrix.Data.xml
-D:\Shipping_system\Shipping_system\obj\Debug\Shipping_system.csprojResolveAssemblyReference.cache
-D:\Shipping_system\Shipping_system\bin\ru\EntityFramework.resources.dll
-D:\Shipping_system\Shipping_system\bin\EntityFramework.SqlServer.dll
-D:\Shipping_system\Shipping_system\bin\EntityFramework.SqlServer.xml
-D:\Shipping_system\Shipping_system\bin\ru\EntityFramework.SqlServer.resources.dll

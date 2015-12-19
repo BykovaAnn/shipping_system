@@ -23,14 +23,14 @@ namespace Shipping_system.Controllers
             {
                 if (WebSecurity.Login(logindata.Username, logindata.Password))
                 {
-                    if (ReturnUrl != null)
+                    if (Roles.GetRolesForUser(logindata.Username)[0] == "user")
                     {
-                        return Redirect(ReturnUrl);
+                        return RedirectToAction("Index", "CustomerCall");
                     }
                     return RedirectToAction("Index", "Home");
                 }
             }
-            ModelState.AddModelError("", "Sorry, smth wrong!");
+            ModelState.AddModelError("", "Sorry, data are wrong!");
             return View(logindata);
         }
         [HttpGet]
@@ -40,30 +40,37 @@ namespace Shipping_system.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(Register registerdata, string role)
+        public ActionResult Register(Register registerdata)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(registerdata.Username, registerdata.Password);
-                    Roles.AddUserToRole(registerdata.Username, role);
-                    return RedirectToAction("Index", "Home");
+                    WebSecurity.CreateUserAndAccount(registerdata.Username, registerdata.Password, new {
+                        FirstName = registerdata.FirstName,
+                        LastName = registerdata.FirstName,
+                        Email = registerdata.Email,
+                        Phone = registerdata.Phone,
+                        ContactPerson = registerdata.ContactPerson,
+                    });
+                    
+                    Roles.AddUserToRole(registerdata.Username, "user");
+                    return RedirectToAction("Index", "CustomerCall");
                 }
                 catch (System.Web.Security.MembershipCreateUserException ex)
                 {
-                    ModelState.AddModelError("", "Sorry, smth exist!");
+                    ModelState.AddModelError("", "Sorry, user already exist!");
                     return View(registerdata);
                 }
             }
-            ModelState.AddModelError("", "Sorry, smth exist!");
+            ModelState.AddModelError("", "Sorry, already exist!");
             return View(registerdata);
         }
 
         public ActionResult Logout()
         {
             WebSecurity.Logout();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
     }
 }

@@ -31,9 +31,20 @@
         @Html.ValidationSummary()
         <label>Username</label>
         @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+        <label>First Name</label>
+        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        <label>Last Name</label>
+        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        <label>E-mail</label>
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        <label>Phone</label>
+        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+        <label>Contact Person</label>
+        @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form-control" })
         <label>Password</label>
         @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        @Html.DropDownList("role", roles, "Select a role");
+       
+        //@Html.DropDownList("role", roles, "Select a role");
         <button class="btn btn-primary">Create</button>
     }
 </div>

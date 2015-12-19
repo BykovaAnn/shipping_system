@@ -8,7 +8,7 @@ namespace DAL
 {
     public class Class1
     {
-        public List<calls> GetCalls()
+        public List<calls> GetCalls(string sidx, string sord, int page, int rows)
         {
             List<calls> result = new List<calls>();
             using (DAL.shipping_systemEntities db1 = new shipping_systemEntities())

@@ -21,9 +21,9 @@
         }
     };
 }
-
-<h2>Hello! Enter smth first time</h2>
-
+<br /><br />
+<h2>Hello! Enter information about you:</h2>
+<br />
 <div>
     @using (Html.BeginForm())
     {
@@ -43,8 +43,9 @@
         @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form-control" })
         <label>Password</label>
         @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-       
+
         //@Html.DropDownList("role", roles, "Select a role");
+        <br />
         <button class="btn btn-primary">Create</button>
     }
 </div>

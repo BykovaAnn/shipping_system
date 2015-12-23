@@ -14,16 +14,16 @@ namespace DAL
     
     public partial class calls
     {
-        public int Id { get; set; }
-        public Nullable<int> status { get; set; }
+        public int status { get; set; }
         public Nullable<int> manager { get; set; }
-        public Nullable<int> cutomer { get; set; }
-        public Nullable<System.DateTime> date { get; set; }
-        public Nullable<System.DateTime> date_delivery { get; set; }
+        public int cutomer { get; set; }
+        public System.DateTime date { get; set; }
+        public System.DateTime date_delivery { get; set; }
         public string delivery_from { get; set; }
         public string delivery_to { get; set; }
-        public Nullable<System.TimeSpan> delivery_time_from { get; set; }
-        public Nullable<System.TimeSpan> delivery_time_to { get; set; }
+        public System.TimeSpan delivery_time_from { get; set; }
+        public System.TimeSpan delivery_time_to { get; set; }
+        public int Id { get; set; }
     
         public virtual status status1 { get; set; }
         public virtual UserProfile UserProfile { get; set; }

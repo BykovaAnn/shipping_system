@@ -7,26 +7,18 @@
     <title>@ViewBag.Title – приложение ASP.NET</title>
     @Styles.Render("~/Content/Site.css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Имя приложения", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @{
                         if (User.Identity.IsAuthenticated)
                         {
-                            <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
                             <li>
-                                <strong>@User.Identity.Name</strong> |
+                                <strong style="color:white;" >@User.Identity.Name</strong> |
                                 @{
                                     if (Roles.GetRolesForUser().Length > 0)
                                     {
@@ -34,6 +26,7 @@
                                     }
                                 }
                             </li>
+                            <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
                         }
                         else
                         {

@@ -48,7 +48,7 @@ namespace Shipping_system.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(registerdata.Username, registerdata.Password, new {
                         FirstName = registerdata.FirstName,
-                        LastName = registerdata.FirstName,
+                        LastName = registerdata.LastName,
                         Email = registerdata.Email,
                         Phone = registerdata.Phone,
                         ContactPerson = registerdata.ContactPerson,

@@ -1,4 +1,3 @@
-D:\Shipping_system\Shipping_system\obj\Debug\Shipping_system.csprojResolveAssemblyReference.cache
 D:\Shipping_system\Shipping_system\bin\roslyn\csc.exe
 D:\Shipping_system\Shipping_system\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 D:\Shipping_system\Shipping_system\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -59,3 +58,4 @@ D:\Shipping_system\Shipping_system\bin\ru\System.Web.WebPages.Deployment.resourc
 D:\Shipping_system\Shipping_system\bin\ru\System.Web.WebPages.Razor.resources.dll
 D:\Shipping_system\Shipping_system\obj\Debug\Shipping_system.dll
 D:\Shipping_system\Shipping_system\obj\Debug\Shipping_system.pdb
+D:\Shipping_system\Shipping_system\obj\Debug\Shipping_system.csprojResolveAssemblyReference.cache

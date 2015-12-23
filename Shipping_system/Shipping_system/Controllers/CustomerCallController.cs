@@ -11,25 +11,16 @@ namespace Shipping_system.Controllers
 {
     public class CustomerCallController : Controller
     {
-        // GET: CustomerCall
+        //Метод используется для отображения страницы
         [Authorize(Roles = "user")]
         public ActionResult Index()
         {
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Index(CustomerCallModel newcalldata)
-        {
-            DAL.Customers.CustomerCalls.AddCall((int)System.Web.Security.Membership.GetUser().ProviderUserKey,
-                newcalldata.DeliveryFrom,
-                newcalldata.DeliveryTo,
-                newcalldata.DateDelivery,
-                newcalldata.DeliveryTimeFrom,
-                newcalldata.DeliveryTimeTo);
-            return View();
-        }
-
+        //Метод используется для отображения данных о заказе
+        //Получает id заказа
+        //Возращает сериализованные данные о заказе
         public JsonResult GetCall(Int32 callID)
         {
             DAL.Customers.CustomerCalls CustomerCallManager = new DAL.Customers.CustomerCalls();
@@ -39,13 +30,68 @@ namespace Shipping_system.Controllers
                 Id = call.Id,
                 DeliveryFrom = call.delivery_from,
                 DeliveryTo = call.delivery_to,
-                DeliveryTimeFrom = call.delivery_time_from.HasValue ? call.delivery_time_from.Value.ToString() : String.Empty,
-                DeliveryTimeTo = call.delivery_time_to.HasValue ? call.delivery_time_to.Value.ToString() : String.Empty,
-                DateDelivery = call.date_delivery
+                DeliveryTimeFrom =  call.delivery_time_from.ToString(),
+                DeliveryTimeTo = call.delivery_time_to.ToString(),
+                DateDelivery_s = call.date_delivery.ToShortDateString()
             };
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
+        //Метод используется для редактирования данных о заказе или добавления нового
+        //Получает id заказа и данные из формы
+        //Возращает сообщения пользователю
+        public JsonResult SaveCall(String callID,
+            String DeliveryFrom,
+            String DeliveryTo,
+            String DateDelivery,
+            String DeliveryTimeFrom,
+            String DeliveryTimeTo)
+        {
+            DAL.Customers.CustomerCalls CustomerCallManager = new DAL.Customers.CustomerCalls();
+            if (String.IsNullOrEmpty(callID) || Int32.Parse(callID) == 0)
+            {
+                CustomerCallManager.AddCall((int)System.Web.Security.Membership.GetUser().ProviderUserKey,
+                    DeliveryFrom.TrimEnd(' '),
+                    DeliveryTo.TrimEnd(' '),
+                    DateTime.Parse(DateDelivery),
+                    DeliveryTimeFrom.TrimEnd(' '),
+                    DeliveryTimeTo.TrimEnd(' '));
+                var jsonData = new
+                {
+                    result = "Call is added!"
+                };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                if (CustomerCallManager.GetCall(Int32.Parse(callID)).status == 1)
+                {
+                    CustomerCallManager.EditCall(Int32.Parse(callID),
+                        DeliveryFrom.TrimEnd(' '),
+                        DeliveryTo.TrimEnd(' '),
+                        DateTime.Parse(DateDelivery),
+                        DeliveryTimeFrom.TrimEnd(' '),
+                        DeliveryTimeTo.TrimEnd(' '));
+                    var jsonData = new
+                    {
+                        result = "Call is updated!"
+                    };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    var jsonData = new
+                    {
+                        result = "Call can not be updated, it's not open status!"
+                    };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+
+        //Метод используется для таблицы
+        //Получает данные для сортировки и количества отображаемых строк
+        //Возращает сериализованные данные о заказах
         public JsonResult GetCustomerCalls(string sidx, string sord, int page, int rows)
         {
             int pageIndex = Convert.ToInt32(page) - 1;
@@ -62,9 +108,9 @@ namespace Shipping_system.Controllers
                     id = a.Id,
                     cell = new object[] {
                     a.Id,
-                    a.date.Value.ToShortDateString(),
+                    a.date.ToShortDateString(),
                     CustomerCallManager.getStatus((int)a.status),
-                    CustomerCallManager.getManagerName((int)a.manager)                    
+                    CustomerCallManager.getManagerName(a.manager)                    
                     }
                 });
             int totalRecords = CustomerCallManager.getCallsCount(userId);
@@ -81,79 +127,30 @@ namespace Shipping_system.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-        //public string Edit(calls obj)
-        //{
-        //    string msg;
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
-        //            db.SaveChanges();
-        //            msg = "Usyo ok";
-        //        }
-        //        else
-        //        {
-        //            msg = "Ne ok";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        msg = "Err" + ex.Message;
-        //    }
-        //    return msg;
-        //}
-
-        public string DeleteCall(int Id)
+        //Метод используется для изменения статуса заказа
+        //Получает id заказа
+        //Возращает сообщение пользователю
+        public JsonResult DeleteCall(int Id)
         {
-            DAL.Customers.CustomerCalls.DeleteCall(Id);
-            return "Usyo ok";
-        }
-
-        [HttpPost]
-        public string SaveCall(CustomerCallModel model)
-        {
-            if(model.Id == 0)
+            DAL.Customers.CustomerCalls CustomerCallManager = new DAL.Customers.CustomerCalls();
+            calls call = CustomerCallManager.GetCall(Id);
+            if (call.status == 1)
             {
-                //add
+                CustomerCallManager.DeleteCall(Id);
+                var jsonData = new
+                {
+                    result = "Call is cancaled!"
+                };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                //edit
+                var jsonData = new
+                {
+                    result = "Call can not be canceled, it's not open status!"
+                };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
             }
-            //DAL.Customers.CustomerCalls.DeleteCall(Id);
-            return "Usyo ok";
         }
-
-        //public string GetRecords()
-        //{
-        //    List<CustomerCallModel> CCs = new List<CustomerCallModel>();
-        //    CCs.Add(new CustomerCallModel()
-        //    {
-        //        Id = 23,
-        //        Status = 1,
-        //        Manager = 1,
-        //        Date = DateTime.Today,
-        //        DateDelivery = DateTime.Today,
-        //        DeliveryFrom = "Lviv",
-        //        DeliveryTo = "Kyiv",
-        //        DeliveryTimeFrom = DateTime.Now,
-        //        DeliveryTimeTo = DateTime.Now
-        //    });
-        //    CCs.Add(new CustomerCallModel()
-        //    {
-        //        Id = 24,
-        //        Status = 1,
-        //        Manager = 1,
-        //        Date = DateTime.Today,
-        //        DateDelivery = DateTime.Today,
-        //        DeliveryFrom = "Kharkiv",
-        //        DeliveryTo = "Lviv",
-        //        DeliveryTimeFrom = DateTime.Now,
-        //        DeliveryTimeTo = DateTime.Now
-        //    });
-
-        //    return JsonConvert.SerializeObject(CCs);
-        //}
-    }
+    }   
 }

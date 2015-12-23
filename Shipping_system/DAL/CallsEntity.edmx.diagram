@@ -4,17 +4,17 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ae7bec4652d34b34b5cd1e87caa88f1e" Name="Diagram1">
-        <EntityTypeShape EntityType="shipping_systemModel.calls" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="shipping_systemModel.status" Width="1.5" PointX="1" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="shipping_systemModel.UserProfile" Width="1.5" PointX="8" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="shipping_systemModel.webpages_Membership" Width="1.5" PointX="7.875" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="shipping_systemModel.webpages_OAuthMembership" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="shipping_systemModel.webpages_Roles" Width="1.5" PointX="5.75" PointY="0.875" IsExpanded="true" />
+      <Diagram DiagramId="ddff8796d5094ede94adb1d97a52e307" Name="Diagram1">
+        <EntityTypeShape EntityType="shipping_systemModel.calls" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="shipping_systemModel.status" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="shipping_systemModel.UserProfile" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="shipping_systemModel.webpages_Membership" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="shipping_systemModel.webpages_OAuthMembership" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="shipping_systemModel.webpages_Roles" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
         <AssociationConnector Association="shipping_systemModel.FK_calls_status" ManuallyRouted="false" />
+        <AssociationConnector Association="shipping_systemModel.FK_customers_calls" ManuallyRouted="false" />
+        <AssociationConnector Association="shipping_systemModel.FK_managers_calls" ManuallyRouted="false" />
         <AssociationConnector Association="shipping_systemModel.webpages_UsersInRoles" ManuallyRouted="false" />
-        <AssociationConnector Association="shipping_systemModel.FK_customers_calls" />
-        <AssociationConnector Association="shipping_systemModel.FK_managers_calls" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

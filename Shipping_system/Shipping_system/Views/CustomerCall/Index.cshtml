@@ -22,17 +22,24 @@
     };
 }
 
+<br />
+<br />
 <h2>
-    CustomerCalls
+    All calls
 </h2>
 
 <div>
-    
-    <form id="saveCallForm">
+    <table id="grid" width="1000"></table>
+    <div id="pager"></div>
+</div>
+<br />
+<div>
+
+    <form id="saveCallForm" class="form-group">
         @Html.AntiForgeryToken()
         @Html.ValidationSummary()
 
-        @Html.TextBoxFor(m => m.Id, new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.Id, new { style = "display: none;" })
         <label>Address From</label>
         @Html.TextBoxFor(m => m.DeliveryFrom, new { @class = "form-control" })
         <label>Address To</label>
@@ -43,47 +50,11 @@
         @Html.TextBoxFor(m => m.DeliveryTimeFrom, new { @class = "form-control" })
         <label>Delivery Time To</label>
         @Html.TextBoxFor(m => m.DeliveryTimeTo, new { @class = "form-control" })
-
-        //@Html.DropDownList("status", status, "Select a role");
     </form>
-    
-    <button class="saveCall btn btn-primary">Save call</button>
+
+    <button class="btn btn-primary" id="saveCall">Save call</button>
 </div>
 
-<div>
-    <table id="grid"></table>
-    <div id="pager"></div>
-</div>
-
-
-
-<br />
-<a href="javascript:void(0)" id="g1" onclick="alert(jQuery('#grid').jqGrid('getGridParam','url'));">Get url</a>
-<br />
-<a href="javascript:void(0)" id="g2" onclick="alert(jQuery('#grid').jqGrid('getGridParam','sortname'));">Get Sort Name</a>
-<br />
-<a href="javascript:void(0)" id="g3" onclick="alert(jQuery('#grid').jqGrid('getGridParam','sortorder'));">Get Sort Order</a>
-<br />
-<a href="javascript:void(0)" id="g4" onclick="alert(jQuery('#grid').jqGrid('getGridParam','selrow'));">Get Selected Row</a>
-<br />
-<a href="javascript:void(0)" id="g5" onclick="alert(jQuery('#grid').jqGrid('getGridParam','page'));">Get Current Page</a>
-<br />
-<a href="javascript:void(0)" id="g6" onclick="alert(jQuery('#grid').jqGrid('getGridParam','rowNum'));">Get Number of Rows requested</a>
-<br />
-<a href="javascript:void(0)" id="g7" onclick="alert('See Multi select rows example');">Get Selected Rows</a>
-<br />
-<a href="javascript:void(0)" id="g8" onclick="alert(jQuery('#grid').jqGrid('getGridParam','datatype'));">Get Data Type requested</a>
-<br />
-<a href="javascript:void(0)" id="g9" onclick="alert(jQuery('#grid').jqGrid('getGridParam','records'));">Get number of records in Grid</a>
-
-<br />
-<a href="#" id="a1">Get data from selected row</a>
-<br />
-<a href="#" id="a2">Delete row 2</a>
-<br />
-<a href="#" id="a3">Update amounts in row 1</a>
-<br />
-<a href="#" id="a4">Add row with id 99</a>
 
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
 <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
@@ -91,3 +62,8 @@
 <script src="~/Scripts/i18n/grid.locale-en.js"></script>
 <script src="~/Scripts/jquery.jqGrid.min.js"></script>
 <script src="~/Scripts/CustomerCalls.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#DateDelivery").datepicker;
+    });
+</script>

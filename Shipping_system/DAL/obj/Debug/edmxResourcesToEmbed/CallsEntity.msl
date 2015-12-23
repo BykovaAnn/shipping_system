@@ -4,7 +4,6 @@
     <EntitySetMapping Name="calls">
       <EntityTypeMapping TypeName="shipping_systemModel.calls">
         <MappingFragment StoreEntitySet="calls">
-          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="status" ColumnName="status" />
           <ScalarProperty Name="manager" ColumnName="manager" />
           <ScalarProperty Name="cutomer" ColumnName="cutomer" />
@@ -14,6 +13,7 @@
           <ScalarProperty Name="delivery_to" ColumnName="delivery_to" />
           <ScalarProperty Name="delivery_time_from" ColumnName="delivery_time_from" />
           <ScalarProperty Name="delivery_time_to" ColumnName="delivery_time_to" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -28,13 +28,13 @@
     <EntitySetMapping Name="UserProfile">
       <EntityTypeMapping TypeName="shipping_systemModel.UserProfile">
         <MappingFragment StoreEntitySet="UserProfile">
-          <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
-          <ScalarProperty Name="Phone" ColumnName="Phone" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

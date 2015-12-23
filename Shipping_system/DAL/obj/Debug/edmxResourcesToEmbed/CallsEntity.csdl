@@ -4,19 +4,19 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" />
-    <Property Name="status" Type="Int32" />
+    <Property Name="status" Type="Int32" Nullable="false" />
     <Property Name="manager" Type="Int32" />
-    <Property Name="cutomer" Type="Int32" />
-    <Property Name="date" Type="DateTime" Precision="0" />
-    <Property Name="date_delivery" Type="DateTime" Precision="0" />
-    <Property Name="delivery_from" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-    <Property Name="delivery_to" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-    <Property Name="delivery_time_from" Type="Time" Precision="7" />
-    <Property Name="delivery_time_to" Type="Time" Precision="7" />
+    <Property Name="cutomer" Type="Int32" Nullable="false" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="date_delivery" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="delivery_from" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="delivery_to" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="delivery_time_from" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="delivery_time_to" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <NavigationProperty Name="status1" Relationship="Self.FK_calls_status" FromRole="calls" ToRole="status" />
-    <NavigationProperty Name="UserProfile" Relationship="shipping_systemModel.FK_customers_calls" FromRole="calls" ToRole="UserProfile" />
-    <NavigationProperty Name="UserProfile1" Relationship="shipping_systemModel.FK_managers_calls" FromRole="calls" ToRole="UserProfile" />
+    <NavigationProperty Name="UserProfile" Relationship="Self.FK_customers_calls" FromRole="calls" ToRole="UserProfile" />
+    <NavigationProperty Name="UserProfile1" Relationship="Self.FK_managers_calls" FromRole="calls" ToRole="UserProfile" />
   </EntityType>
   <EntityType Name="status">
     <Key>
@@ -32,14 +32,14 @@
     </Key>
     <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Username" Type="String" MaxLength="56" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="webpages_Roles" Relationship="Self.webpages_UsersInRoles" FromRole="UserProfile" ToRole="webpages_Roles" />
     <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
     <Property Name="LastName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
     <Property Name="Email" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
     <Property Name="Phone" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
     <Property Name="ContactPerson" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-    <NavigationProperty Name="calls" Relationship="shipping_systemModel.FK_customers_calls" FromRole="UserProfile" ToRole="calls" />
-    <NavigationProperty Name="calls1" Relationship="shipping_systemModel.FK_managers_calls" FromRole="UserProfile" ToRole="calls" />
+    <NavigationProperty Name="calls" Relationship="Self.FK_customers_calls" FromRole="UserProfile" ToRole="calls" />
+    <NavigationProperty Name="calls1" Relationship="Self.FK_managers_calls" FromRole="UserProfile" ToRole="calls" />
+    <NavigationProperty Name="webpages_Roles" Relationship="Self.webpages_UsersInRoles" FromRole="UserProfile" ToRole="webpages_Roles" />
   </EntityType>
   <EntityType Name="webpages_Membership">
     <Key>
@@ -75,7 +75,7 @@
     <NavigationProperty Name="UserProfile" Relationship="Self.webpages_UsersInRoles" FromRole="webpages_Roles" ToRole="UserProfile" />
   </EntityType>
   <Association Name="FK_calls_status">
-    <End Role="status" Type="Self.status" Multiplicity="0..1" />
+    <End Role="status" Type="Self.status" Multiplicity="1" />
     <End Role="calls" Type="Self.calls" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="status">
@@ -83,6 +83,30 @@
       </Principal>
       <Dependent Role="calls">
         <PropertyRef Name="status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_customers_calls">
+    <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+    <End Role="calls" Type="Self.calls" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserProfile">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="calls">
+        <PropertyRef Name="cutomer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_managers_calls">
+    <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+    <End Role="calls" Type="Self.calls" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserProfile">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="calls">
+        <PropertyRef Name="manager" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -101,41 +125,17 @@
       <End Role="status" EntitySet="status" />
       <End Role="calls" EntitySet="calls" />
     </AssociationSet>
+    <AssociationSet Name="FK_customers_calls" Association="Self.FK_customers_calls">
+      <End Role="UserProfile" EntitySet="UserProfile" />
+      <End Role="calls" EntitySet="calls" />
+    </AssociationSet>
+    <AssociationSet Name="FK_managers_calls" Association="Self.FK_managers_calls">
+      <End Role="UserProfile" EntitySet="UserProfile" />
+      <End Role="calls" EntitySet="calls" />
+    </AssociationSet>
     <AssociationSet Name="webpages_UsersInRoles" Association="Self.webpages_UsersInRoles">
       <End Role="webpages_Roles" EntitySet="webpages_Roles" />
       <End Role="UserProfile" EntitySet="UserProfile" />
     </AssociationSet>
-    <AssociationSet Name="FK_customers_calls" Association="shipping_systemModel.FK_customers_calls">
-      <End Role="UserProfile" EntitySet="UserProfile" />
-      <End Role="calls" EntitySet="calls" />
-    </AssociationSet>
-    <AssociationSet Name="FK_managers_calls" Association="shipping_systemModel.FK_managers_calls">
-      <End Role="UserProfile" EntitySet="UserProfile" />
-      <End Role="calls" EntitySet="calls" />
-    </AssociationSet>
   </EntityContainer>
-  <Association Name="FK_customers_calls">
-    <End Type="shipping_systemModel.UserProfile" Role="UserProfile" Multiplicity="0..1" />
-    <End Type="shipping_systemModel.calls" Role="calls" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="UserId" />
-      </Principal>
-      <Dependent Role="calls">
-        <PropertyRef Name="cutomer" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_managers_calls">
-    <End Type="shipping_systemModel.UserProfile" Role="UserProfile" Multiplicity="0..1" />
-    <End Type="shipping_systemModel.calls" Role="calls" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="UserId" />
-      </Principal>
-      <Dependent Role="calls">
-        <PropertyRef Name="manager" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
 </Schema>
